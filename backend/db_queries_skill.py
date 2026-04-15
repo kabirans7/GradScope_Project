@@ -1,17 +1,27 @@
 import pandas as pd
+import streamlit as st
 import psycopg2
-from etl.config import DB_NAME, DB_USER, DB_PASSWORD, DB_HOST, DB_PORT #Grab Analytics DB
+# from etl.config import DB_NAME, DB_USER, DB_PASSWORD, DB_HOST, DB_PORT #Grab Analytics DB
 
 
 #Establish DB Connection
 def get_connection():
+    pg = st.secrets["postgres"]
     return psycopg2.connect(
-        dbname=DB_NAME,
-        user=DB_USER,
-        password=DB_PASSWORD,
-        host=DB_HOST,
-        port=DB_PORT
+        dbname=pg["database"],
+        user=pg["user"],
+        password=pg["password"],
+        host=pg["host"],
+        port=pg["port"],
+        sslmode="require"
     )
+    # return psycopg2.connect(
+    #     dbname=DB_NAME,
+    #     user=DB_USER,
+    #     password=DB_PASSWORD,
+    #     host=DB_HOST,
+    #     port=DB_PORT
+    # )
 
 #First Level (Skill Categories)
 def get_skill_categories(skill_type: str | None = None, finyear: int | None = None):

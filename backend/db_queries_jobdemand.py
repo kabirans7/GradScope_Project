@@ -1,16 +1,28 @@
 import pandas as pd
 import psycopg2
-from etl.config import DB_NAME, DB_USER, DB_PASSWORD, DB_HOST, DB_PORT
+import streamlit as st
+# from etl.config import DB_NAME, DB_USER, DB_PASSWORD, DB_HOST, DB_PORT #Grab Analytics DB
 
 
+#Establish DB Connection
 def get_connection():
+    pg = st.secrets["postgres"]
     return psycopg2.connect(
-        dbname=DB_NAME,
-        user=DB_USER,
-        password=DB_PASSWORD,
-        host=DB_HOST,
-        port=DB_PORT,
+        dbname=pg["database"],
+        user=pg["user"],
+        password=pg["password"],
+        host=pg["host"],
+        port=pg["port"],
+        sslmode="require"
     )
+    # return psycopg2.connect(
+    #     dbname=DB_NAME,
+    #     user=DB_USER,
+    #     password=DB_PASSWORD,
+    #     host=DB_HOST,
+    #     port=DB_PORT
+    # )
+
 
 # Use Case 6
 
