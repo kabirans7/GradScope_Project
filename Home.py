@@ -1,5 +1,5 @@
 import streamlit as st
-from auth import init_auth_state, render_auth_router, logout_button_top_right
+# from auth import init_auth_state, render_auth_router, logout_button_top_right
 
 st.set_page_config(page_title="GradScope", page_icon=":bar_chart:", layout="wide", initial_sidebar_state="expanded")
 
@@ -10,7 +10,7 @@ def local_css(file_name: str):
     except FileNotFoundError:
         st.warning(f"CSS file not found: {file_name}")
 
-init_auth_state()
+# init_auth_state()
 
 # URL Routing for reset password
 params = st.query_params
@@ -23,15 +23,15 @@ st.markdown("<style>img{border-radius:15px;}</style>", unsafe_allow_html=True)
 local_css("style/style.css")
 
 
-# Authentication gate
-if not st.session_state.authenticated:
-    render_auth_router()
-    st.stop()
+# # Authentication gate
+# if not st.session_state.authenticated:
+#     render_auth_router()
+#     st.stop()
 
 # ---------------------------------------------------------------
 # Layout + hide sidebar
 # ---------------------------------------------------------------
-logout_button_top_right()
+# logout_button_top_right()
 
 st.markdown("""
     <style>
