@@ -1,0 +1,8 @@
+.venv/
+venv/
+etl_venv/
+__pycache__/
+*.pyc
+.streamlit/secrets.toml
+.env
+data/CareerZone_Dataset.csv
