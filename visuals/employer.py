@@ -67,6 +67,10 @@ def show():
             margin=dict(l=20, r=20, t=60, b=60),
         )
 
+        fig.update_traces(
+            hovertemplate="<b>%{y}</b><br>Postings: %{x}<br><i>🔍 Click to explore deeper insights</i><extra></extra>",
+        )
+
         event = st.plotly_chart(
             fig,
             on_select="rerun",
@@ -86,26 +90,24 @@ def show():
     elif st.session_state.employers_page == "company_detail":
         company = st.session_state.selected_company
 
-        nav_col, col1, spacer = st.columns([0.5, 1, 2])
+        nav_placeholder = st.empty()
 
-        with nav_col:
-            st.markdown("<br>", unsafe_allow_html=True)
-            if st.button("< Back", key="employers_back"):
-                st.session_state.employers_page = "overview"
-                st.session_state.selected_company = None
-                st.rerun()
+        tab1, tab2 = st.tabs(["Roles", "Skills"])
 
-        with col1:
-            selected_year = st.selectbox(
-                "Year", year_options, index=0, key="company_detail_year"
-            )
+        with nav_placeholder.container():
+            nav_col, col1, spacer = st.columns([0.5, 1, 2])
+            with nav_col:
+                st.markdown("<br>", unsafe_allow_html=True)
+                if st.button("< Back", key="employers_back"):
+                    st.session_state.employers_page = "overview"
+                    st.session_state.selected_company = None
+                    st.rerun()
+            with col1:
+                selected_year = st.selectbox(
+                    "Year", year_options, index=0, key="company_detail_year"
+                )
 
         finyear = parse_year(selected_year)
-
-        st.markdown("---")
-
-        # Tabs
-        tab1, tab2 = st.tabs(["Roles", "Skills"])
 
         # --- Tab 1: Roles ---
         with tab1:
