@@ -54,6 +54,7 @@ def show():
             title="Active Employers",
             color="demand_count",
             color_continuous_scale="Blues",
+            range_color=[0, df["demand_count"].max()],
         )
 
         fig.update_layout(
@@ -101,6 +102,8 @@ def show():
 
         finyear = parse_year(selected_year)
 
+        st.markdown("---")
+
         # Tabs
         tab1, tab2 = st.tabs(["Roles", "Skills"])
 
@@ -125,6 +128,7 @@ def show():
                     title=f"Roles Offered by {company}",
                     color="demand_count",
                     color_continuous_scale="Blues",
+                    range_color=[0, roles_df["demand_count"].max()],
                 )
 
                 fig_roles.update_layout(
@@ -160,6 +164,7 @@ def show():
                     title=f"Required Skills Needed by {company}",
                     color="demand_count",
                     color_continuous_scale="Blues",
+                    range_color=[0, skills_df["demand_count"].max()],
                 )
 
                 fig_skills.update_layout(
