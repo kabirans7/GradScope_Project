@@ -8,6 +8,8 @@ from visuals.sector import show as show_sectors
 
 # require_auth()  # Blocks direct access if not logged in
 
+st.set_page_config(layout="wide")
+
 # ---------------------------------------------------------------
 # Layout + hide sidebar
 # ---------------------------------------------------------------
@@ -18,6 +20,9 @@ st.markdown("""
         .block-container {
             padding-top: 2.0rem !important;
             margin-top: 0rem !important;
+            max-width: 100% !important;
+            padding-left: 2rem !important;
+            padding-right: 2rem !important;
         }
     </style>
 """, unsafe_allow_html=True)
