@@ -324,11 +324,9 @@ def show_careers():
                     st.rerun()
             with col1:
                 selected_year = st.selectbox("Year", year_options, index=0, key="job_detail_year")
+            st.markdown(f"### {job_title}")
 
         finyear = parse_year(selected_year)
-
-        st.markdown("<div style='margin-top: 0.5rem;'></div>", unsafe_allow_html=True)
-        st.markdown(f"### {job_title}")
 
         tab1, tab2, tab3 = st.tabs(["💰 Salary", "🗺️ Geographic", "📋 Experience"])
 
