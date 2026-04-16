@@ -83,7 +83,7 @@ def show():
             textposition="outside",
             textangle=0,
             cliponaxis=False,
-            hovertemplate="<b>%{y}</b><br>% Change: %{x:.1f}%<extra></extra>",
+            hovertemplate="<b>%{y}</b><br>% Change: %{x:.1f}%<br><i>🔍 Click to explore deeper insights</i><extra></extra>",
             showlegend=False,
         ))
 
