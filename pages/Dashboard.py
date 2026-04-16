@@ -97,7 +97,7 @@ st.markdown(f"""
 # ---------------------------------------------------------------
 tab1, tab2, tab3, tab4, tab5 = st.tabs([
     "Skills",
-    "Jobs & Roles",
+    "Roles",
     "Employers",
     "Sectors",
     "Trends",
