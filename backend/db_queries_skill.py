@@ -1,29 +1,16 @@
 import pandas as pd
 import streamlit as st
-import psycopg2
-# from etl.config import DB_NAME, DB_USER, DB_PASSWORD, DB_HOST, DB_PORT #Grab Analytics DB
+from sqlalchemy import text
+from backend.db import get_engine
 
 
-#Establish DB Connection
-def get_connection():
-    pg = st.secrets["postgres"]
-    return psycopg2.connect(
-        dbname=pg["database"],
-        user=pg["user"],
-        password=pg["password"],
-        host=pg["host"],
-        port=pg["port"],
-        sslmode="require"
-    )
-    # return psycopg2.connect(
-    #     dbname=DB_NAME,
-    #     user=DB_USER,
-    #     password=DB_PASSWORD,
-    #     host=DB_HOST,
-    #     port=DB_PORT
-    # )
+def _query(sql: str, params: dict) -> pd.DataFrame:
+    engine = get_engine()
+    with engine.connect() as conn:
+        return pd.read_sql(text(sql), conn, params=params)
 
-#First Level (Skill Categories)
+
+@st.cache_data(ttl=600)
 def get_skill_categories(skill_type: str | None = None, finyear: int | None = None):
     sql = """
         SELECT
@@ -33,16 +20,15 @@ def get_skill_categories(skill_type: str | None = None, finyear: int | None = No
         JOIN "DIM_Skill" s ON fs.skill_id = s.skill_id
         JOIN "FACT_Job_Posting" jp ON fs.job_posting_id = jp.job_posting_id
         JOIN "DIM_Date_Posted" d ON jp.date_posted = d.date
-        WHERE (%s IS NULL OR s.skill_type = %s)
-          AND (%s IS NULL OR d.finyear = %s)
+        WHERE (:skill_type IS NULL OR s.skill_type = :skill_type)
+          AND (:finyear IS NULL OR d.finyear = :finyear)
         GROUP BY s.skill_category
         ORDER BY demand_count DESC
     """
-    with get_connection() as conn:
-        return pd.read_sql(sql, conn, params=(skill_type, skill_type, finyear, finyear))
+    return _query(sql, {"skill_type": skill_type, "finyear": finyear})
 
 
-#Second Level — Skills within a selected category
+@st.cache_data(ttl=600)
 def get_skills_by_category(category: str, skill_type: str | None = None, finyear: int | None = None):
     sql = """
         SELECT
@@ -54,20 +40,19 @@ def get_skills_by_category(category: str, skill_type: str | None = None, finyear
         JOIN "DIM_Skill" s ON fs.skill_id = s.skill_id
         JOIN "FACT_Job_Posting" jp ON fs.job_posting_id = jp.job_posting_id
         JOIN "DIM_Date_Posted" d ON jp.date_posted = d.date
-        WHERE s.skill_category = %s
-          AND (%s IS NULL OR s.skill_type = %s)
-          AND (%s IS NULL OR d.finyear = %s)
+        WHERE s.skill_category = :category
+          AND (:skill_type IS NULL OR s.skill_type = :skill_type)
+          AND (:finyear IS NULL OR d.finyear = :finyear)
         GROUP BY
             COALESCE(s.skill_group, 'Other'),
             s.skill_name,
             s.skill_type
         ORDER BY skill_group ASC, demand_count DESC, s.skill_name ASC
     """
-    with get_connection() as conn:
-        return pd.read_sql(sql, conn, params=(category, skill_type, skill_type, finyear, finyear))
+    return _query(sql, {"category": category, "skill_type": skill_type, "finyear": finyear})
 
 
-#Third Level — Trend by month for a single skill, optionally filtered by year
+@st.cache_data(ttl=600)
 def get_skill_trend(skill: str, skill_type: str | None = None, finyear: int | None = None):
     sql = """
         SELECT
@@ -77,16 +62,13 @@ def get_skill_trend(skill: str, skill_type: str | None = None, finyear: int | No
         JOIN "DIM_Skill" s ON fs.skill_id = s.skill_id
         JOIN "FACT_Job_Posting" jp ON fs.job_posting_id = jp.job_posting_id
         JOIN "DIM_Date_Posted" d ON jp.date_posted = d.date
-        WHERE s.skill_name = %s
-          AND (%s IS NULL OR s.skill_type = %s)
-          AND (%s IS NULL OR d.finyear = %s)
+        WHERE s.skill_name = :skill
+          AND (:skill_type IS NULL OR s.skill_type = :skill_type)
+          AND (:finyear IS NULL OR d.finyear = :finyear)
         GROUP BY d.finmonth
         ORDER BY d.finmonth
     """
-    with get_connection() as conn:
-        df = pd.read_sql(sql, conn, params=(skill, skill_type, skill_type, finyear, finyear)) #Dataframe running SQL Query against DB for Python 
-
-    # Convert month number to abbreviated name: e.g. 1 --> Jan, 2 --> Feb
+    df = _query(sql, {"skill": skill, "skill_type": skill_type, "finyear": finyear})
     if not df.empty:
         df["month_label"] = pd.to_datetime(
             df["finmonth"].astype(str).str.zfill(2), format="%m"
