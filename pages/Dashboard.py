@@ -106,15 +106,14 @@ tab1, tab2, tab3, tab4, tab5 = st.tabs([
 with tab1:
     with st.container(border=True):
         show_skills()
-
 with tab2:
-     col1, col2 = st.columns(2) 
+    col1, col2 = st.columns(2)
     with col1:
         with st.container(border=True):
-        show_careers()
-     with col2:
-         with st.container(border=True):
-             show_roles()
+            show_careers()
+    with col2:
+        with st.container(border=True):
+            show_roles()
 
 with tab3:
     with st.container(border=True):
