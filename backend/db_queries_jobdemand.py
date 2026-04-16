@@ -1,32 +1,16 @@
 import pandas as pd
-import psycopg2
 import streamlit as st
-# from etl.config import DB_NAME, DB_USER, DB_PASSWORD, DB_HOST, DB_PORT #Grab Analytics DB
+from sqlalchemy import text
+from backend.db import get_engine
 
 
-#Establish DB Connection
-def get_connection():
-    pg = st.secrets["postgres"]
-    return psycopg2.connect(
-        dbname=pg["database"],
-        user=pg["user"],
-        password=pg["password"],
-        host=pg["host"],
-        port=pg["port"],
-        sslmode="require"
-    )
-    # return psycopg2.connect(
-    #     dbname=DB_NAME,
-    #     user=DB_USER,
-    #     password=DB_PASSWORD,
-    #     host=DB_HOST,
-    #     port=DB_PORT
-    # )
+def _query(sql: str, params: dict) -> pd.DataFrame:
+    engine = get_engine()
+    with engine.connect() as conn:
+        return pd.read_sql(text(sql), conn, params=params)
 
 
-# Use Case 6
-
-# Chart 1 — Demand trend for a selected role over time
+@st.cache_data(ttl=600)
 def get_trend_by_role(job_title: str, finyear: int | None = None):
     sql = """
         SELECT
@@ -36,13 +20,12 @@ def get_trend_by_role(job_title: str, finyear: int | None = None):
         FROM "FACT_Job_Posting" jp
         JOIN "DIM_Job_Title" jt ON jp.job_title_id = jt.job_title_id
         JOIN "DIM_Date_Posted" d ON jp.date_posted = d.date
-        WHERE jt.job_title = %s
-          AND (%s IS NULL OR d.finyear = %s)
+        WHERE jt.job_title = :job_title
+          AND (:finyear IS NULL OR d.finyear = :finyear)
         GROUP BY d.finyear, d.finmonth
         ORDER BY d.finyear, d.finmonth
     """
-    with get_connection() as conn:
-        df = pd.read_sql(sql, conn, params=(job_title, finyear, finyear))
+    df = _query(sql, {"job_title": job_title, "finyear": finyear})
     if not df.empty:
         df["month_label"] = pd.to_datetime(
             df["finyear"].astype(str) + "-" + df["finmonth"].astype(str).str.zfill(2) + "-01"
@@ -50,7 +33,7 @@ def get_trend_by_role(job_title: str, finyear: int | None = None):
     return df
 
 
-# Chart 2 — Demand trend for a selected sector over time
+@st.cache_data(ttl=600)
 def get_trend_by_sector(industry_name: str, finyear: int | None = None):
     sql = """
         SELECT
@@ -61,13 +44,12 @@ def get_trend_by_sector(industry_name: str, finyear: int | None = None):
         JOIN "FACT_Company_Industry" fci ON jp.company_id = fci.company_id
         JOIN "DIM_Industry" di ON fci.industry_id = di.industry_id
         JOIN "DIM_Date_Posted" d ON jp.date_posted = d.date
-        WHERE di.industry_name = %s
-          AND (%s IS NULL OR d.finyear = %s)
+        WHERE di.industry_name = :industry_name
+          AND (:finyear IS NULL OR d.finyear = :finyear)
         GROUP BY d.finyear, d.finmonth
         ORDER BY d.finyear, d.finmonth
     """
-    with get_connection() as conn:
-        df = pd.read_sql(sql, conn, params=(industry_name, finyear, finyear))
+    df = _query(sql, {"industry_name": industry_name, "finyear": finyear})
     if not df.empty:
         df["month_label"] = pd.to_datetime(
             df["finyear"].astype(str) + "-" + df["finmonth"].astype(str).str.zfill(2) + "-01"
@@ -75,7 +57,7 @@ def get_trend_by_sector(industry_name: str, finyear: int | None = None):
     return df
 
 
-# Chart 3 — Demand trend for a selected location over time
+@st.cache_data(ttl=600)
 def get_trend_by_location(city: str, finyear: int | None = None):
     sql = """
         SELECT
@@ -86,13 +68,12 @@ def get_trend_by_location(city: str, finyear: int | None = None):
         JOIN "FACT_Job_Location" fjl ON jp.job_posting_id = fjl.job_posting_id
         JOIN "DIM_Location" dl ON fjl.location_id = dl.location_id
         JOIN "DIM_Date_Posted" d ON jp.date_posted = d.date
-        WHERE dl.city = %s
-          AND (%s IS NULL OR d.finyear = %s)
+        WHERE dl.city = :city
+          AND (:finyear IS NULL OR d.finyear = :finyear)
         GROUP BY d.finyear, d.finmonth
         ORDER BY d.finyear, d.finmonth
     """
-    with get_connection() as conn:
-        df = pd.read_sql(sql, conn, params=(city, finyear, finyear))
+    df = _query(sql, {"city": city, "finyear": finyear})
     if not df.empty:
         df["month_label"] = pd.to_datetime(
             df["finyear"].astype(str) + "-" + df["finmonth"].astype(str).str.zfill(2) + "-01"
@@ -100,26 +81,25 @@ def get_trend_by_location(city: str, finyear: int | None = None):
     return df
 
 
-# Dropdown helpers
+@st.cache_data(ttl=3600)
 def get_all_industries():
     sql = """SELECT DISTINCT industry_name FROM "DIM_Industry" ORDER BY industry_name"""
-    with get_connection() as conn:
-        return pd.read_sql(sql, conn)["industry_name"].tolist()
+    return _query(sql, {})["industry_name"].tolist()
 
 
+@st.cache_data(ttl=3600)
 def get_all_cities():
     sql = """SELECT DISTINCT city FROM "DIM_Location" ORDER BY city"""
-    with get_connection() as conn:
-        return pd.read_sql(sql, conn)["city"].tolist()
+    return _query(sql, {})["city"].tolist()
 
 
+@st.cache_data(ttl=3600)
 def get_all_job_titles():
     sql = """SELECT DISTINCT job_title FROM "DIM_Job_Title" ORDER BY job_title"""
-    with get_connection() as conn:
-        return pd.read_sql(sql, conn)["job_title"].tolist()
+    return _query(sql, {})["job_title"].tolist()
 
 
-# Use Case 7 — Total monthly job postings with optional filters
+@st.cache_data(ttl=600)
 def get_monthly_postings(
     finyear: int | None = None,
     industry_name: str | None = None,
@@ -137,32 +117,27 @@ def get_monthly_postings(
         LEFT JOIN "DIM_Industry" di ON fci.industry_id = di.industry_id
         LEFT JOIN "FACT_Job_Location" fjl ON jp.job_posting_id = fjl.job_posting_id
         LEFT JOIN "DIM_Location" dl ON fjl.location_id = dl.location_id
-        WHERE (%s IS NULL OR d.finyear = %s)
-          AND (%s IS NULL OR di.industry_name = %s)
-          AND (%s IS NULL OR dl.city = %s)
-          AND (%s IS NULL OR jt.job_title = %s)
+        WHERE (:finyear IS NULL OR d.finyear = :finyear)
+          AND (:industry_name IS NULL OR di.industry_name = :industry_name)
+          AND (:city IS NULL OR dl.city = :city)
+          AND (:job_title IS NULL OR jt.job_title = :job_title)
         GROUP BY d.finmonth
         ORDER BY d.finmonth
     """
-    with get_connection() as conn:
-        df = pd.read_sql(sql, conn, params=(
-            finyear, finyear,
-            industry_name, industry_name,
-            city, city,
-            job_title, job_title,
-        ))
-
+    df = _query(sql, {
+        "finyear": finyear,
+        "industry_name": industry_name,
+        "city": city,
+        "job_title": job_title,
+    })
     if not df.empty:
         df["month_label"] = pd.to_datetime(
             df["finmonth"].astype(str).str.zfill(2), format="%m"
         ).dt.strftime("%b")
-
     return df
 
 
-# Use Case 8 — Sectors with High Graduate Hiring Demand
-
-# Page 1 — Sectors ranked by number of job postings
+@st.cache_data(ttl=600)
 def get_sectors_by_demand(finyear: int | None = None):
     sql = """
         SELECT
@@ -172,15 +147,14 @@ def get_sectors_by_demand(finyear: int | None = None):
         JOIN "FACT_Company_Industry" fci ON jp.company_id = fci.company_id
         JOIN "DIM_Industry" di ON fci.industry_id = di.industry_id
         JOIN "DIM_Date_Posted" d ON jp.date_posted = d.date
-        WHERE (%s IS NULL OR d.finyear = %s)
+        WHERE (:finyear IS NULL OR d.finyear = :finyear)
         GROUP BY di.industry_name
         ORDER BY demand_count DESC
     """
-    with get_connection() as conn:
-        return pd.read_sql(sql, conn, params=(finyear, finyear))
+    return _query(sql, {"finyear": finyear})
 
 
-# Page 2 Drill-Down 1 — Roles within a selected sector
+@st.cache_data(ttl=600)
 def get_roles_within_sector(industry_name: str, finyear: int | None = None):
     sql = """
         SELECT
@@ -191,16 +165,15 @@ def get_roles_within_sector(industry_name: str, finyear: int | None = None):
         JOIN "DIM_Industry" di ON fci.industry_id = di.industry_id
         JOIN "DIM_Job_Title" jt ON jp.job_title_id = jt.job_title_id
         JOIN "DIM_Date_Posted" d ON jp.date_posted = d.date
-        WHERE di.industry_name = %s
-          AND (%s IS NULL OR d.finyear = %s)
+        WHERE di.industry_name = :industry_name
+          AND (:finyear IS NULL OR d.finyear = :finyear)
         GROUP BY jt.job_title
         ORDER BY demand_count DESC
     """
-    with get_connection() as conn:
-        return pd.read_sql(sql, conn, params=(industry_name, finyear, finyear))
+    return _query(sql, {"industry_name": industry_name, "finyear": finyear})
 
 
-# Page 2 Drill-Down 2 — Skills required within a selected sector
+@st.cache_data(ttl=600)
 def get_skills_within_sector(industry_name: str, finyear: int | None = None):
     sql = """
         SELECT
@@ -212,17 +185,16 @@ def get_skills_within_sector(industry_name: str, finyear: int | None = None):
         JOIN "FACT_Job_Skill" fs ON jp.job_posting_id = fs.job_posting_id
         JOIN "DIM_Skill" s ON fs.skill_id = s.skill_id
         JOIN "DIM_Date_Posted" d ON jp.date_posted = d.date
-        WHERE di.industry_name = %s
-          AND (%s IS NULL OR d.finyear = %s)
+        WHERE di.industry_name = :industry_name
+          AND (:finyear IS NULL OR d.finyear = :finyear)
         GROUP BY s.skill_name
         ORDER BY frequency DESC
         LIMIT 10
     """
-    with get_connection() as conn:
-        return pd.read_sql(sql, conn, params=(industry_name, finyear, finyear))
+    return _query(sql, {"industry_name": industry_name, "finyear": finyear})
 
 
-# Page 2 Drill-Down 3 — Salary distribution for a selected sector
+@st.cache_data(ttl=600)
 def get_salary_within_sector(industry_name: str, finyear: int | None = None):
     sql = """
         SELECT
@@ -234,10 +206,9 @@ def get_salary_within_sector(industry_name: str, finyear: int | None = None):
         JOIN "FACT_Company_Industry" fci ON jp.company_id = fci.company_id
         JOIN "DIM_Industry" di ON fci.industry_id = di.industry_id
         JOIN "DIM_Date_Posted" d ON jp.date_posted = d.date
-        WHERE di.industry_name = %s
+        WHERE di.industry_name = :industry_name
           AND jp.salary_min IS NOT NULL
           AND jp.salary_max IS NOT NULL
-          AND (%s IS NULL OR d.finyear = %s)
+          AND (:finyear IS NULL OR d.finyear = :finyear)
     """
-    with get_connection() as conn:
-        return pd.read_sql(sql, conn, params=(industry_name, finyear, finyear))
+    return _query(sql, {"industry_name": industry_name, "finyear": finyear})
