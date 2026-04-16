@@ -34,6 +34,11 @@ st.markdown("""
             font-size: 1.15rem !important;
             font-weight: 600 !important;
         }
+        /* only apply large font to TOP LEVEL tabs, not nested ones */
+        [data-testid="stTabs"] [data-testid="stTabs"] button p {
+            font-size: 0.9rem !important;
+            font-weight: 400 !important;
+        }
     </style>
 """, unsafe_allow_html=True)
 
