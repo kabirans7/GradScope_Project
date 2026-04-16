@@ -324,7 +324,7 @@ def show_careers():
                     st.rerun()
             with col1:
                 selected_year = st.selectbox("Year", year_options, index=0, key="job_detail_year")
-            st.markdown(f"### {job_title}")
+            # st.markdown(f"### {job_title}")
 
         finyear = parse_year(selected_year)
 
