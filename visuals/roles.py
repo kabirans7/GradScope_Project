@@ -314,7 +314,13 @@ def show_careers():
     elif st.session_state.careers_page == "job_detail":
         job_title = st.session_state.selected_job_title
 
-        with st.container():
+        # Render nav placeholder FIRST so it sits above tabs in DOM
+        nav_placeholder = st.empty()
+
+        tab1, tab2, tab3 = st.tabs(["💰 Salary", "🗺️ Geographic", "📋 Experience"])
+
+        # Fill nav placeholder - renders above tabs visually
+        with nav_placeholder.container():
             nav_col, col1, col2, spacer = st.columns([0.5, 1, 1, 1])
             with nav_col:
                 st.markdown("<br>", unsafe_allow_html=True)
@@ -326,8 +332,6 @@ def show_careers():
                 selected_year = st.selectbox("Year", year_options, index=0, key="job_detail_year")
 
         finyear = parse_year(selected_year)
-
-        tab1, tab2, tab3 = st.tabs(["💰 Salary", "🗺️ Geographic", "📋 Experience"])
 
         with tab1:
             st.markdown(f"### {job_title}")
