@@ -135,8 +135,11 @@ with tab4:
         show_sectors()
 
 with tab5:
-    with st.container(border=True):
-        show_monthly()
-        
-    with st.container(border=True):
-        show_demand()
+    col1, col2 = st.columns(2)
+    with col1:
+        with st.container(border=True):
+            show_monthly()
+
+    with col2: 
+        with st.container(border=True):
+            show_demand()
