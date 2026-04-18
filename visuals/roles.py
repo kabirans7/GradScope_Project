@@ -355,7 +355,7 @@ def show_careers():
 
 
 # # ---------------------------------------------------------------
-# # Use Case 4 — Career Options by Industry
+# # Use Case 4 — Career Options by Industry - This will be removed soon
 # # ---------------------------------------------------------------
 # def show_careers():
 #     plotly_config = {"displayModeBar": False}
