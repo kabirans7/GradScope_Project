@@ -202,39 +202,39 @@ st.markdown(f"""
     <hr style="border-color: #1a4a6e; margin: 1rem 0 2rem 0;">
 
     <div class="content">
-    <h2>Who this targets</h3>
-    <div class="card-row">
-        <div class="card">
-            <div class="icon"></div>
-            <div class="label">Students</div>
-            <div class="tooltip">
-                <b>Purpose of Use</b><br><br>
-             To prepare for employability after graduation by discovering
-             in-demand skills and roles, salary insights, employer demand and many more useful trends.
+        <h2>Who this targets</h2>
+        <div class="card-row">
+            <div class="card">
+                <div class="icon"></div>
+                <div class="label">Students</div>
+                <div class="tooltip">
+                    <b>Purpose of Use</b><br><br>
+                    To prepare for employability after graduation by discovering
+                    in-demand skills and roles, salary insights, employer demand and many more useful trends.
+                </div>
             </div>
-        </div>
-        <div class="card">
-            <div class="icon"></div>
-            <div class="label">Academics</div>
-            <div class="tooltip">
-            <b>Purpose of Use</b><br><br>
-            To align curriculum relevance with industry demand.
+            <div class="card">
+                <div class="icon"></div>
+                <div class="label">Academics</div>
+                <div class="tooltip">
+                    <b>Purpose of Use</b><br><br>
+                    To align curriculum relevance with industry demand.
+                </div>
             </div>
-        </div>
-        <div class="card">
-            <div class="icon"></div>
-            <div class="label">Career Consultants</div>
-            <div class="tooltip">
-            <b>Purpose of Use</b><br><br>
-            To enhance employability support services and initiatives, aligned with industry demand.
+            <div class="card">
+                <div class="icon"></div>
+                <div class="label">Career Consultants</div>
+                <div class="tooltip">
+                    <b>Purpose of Use</b><br><br>
+                    To enhance employability support services and initiatives, aligned with industry demand.
+                </div>
             </div>
         </div>
     </div>
-</div>
 
-<div class="disclaimer">
-    <h4>Disclaimer</h4>
-    <p>This dashboard is GDPR compliant. All data displayed is aggregated and anonymised.
-            No personally identifiable information is stored or processed.</p>
-</div>
+    <div class="disclaimer">
+        <h4>Disclaimer</h4>
+        <p>This dashboard is GDPR compliant. All data displayed is aggregated and anonymised.
+        No personally identifiable information is stored or processed.</p>
+    </div>
 """, unsafe_allow_html=True)
