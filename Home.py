@@ -174,6 +174,22 @@ st.markdown(f"""
             visibility: visible;
             opacity: 1;
         }}
+        .disclaimer {{
+            text-align: center;
+            margin-top: 2rem;
+            padding: 1.5rem;
+            border-top: 1px solid #1a4a6e;
+        }}
+        .disclaimer h4 {{
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }}
+        .disclaimer p {{
+            font-size: 0.9rem;
+            opacity: 0.75;
+            max-width: 600px;
+            margin: 0 auto;
+        }}
     </style>
 
     <div class="hero">
