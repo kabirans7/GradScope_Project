@@ -214,7 +214,11 @@ st.markdown(f"""
             </div>
         </div>
     </div>
-    </div>
-<h2>Disclaimer</h2>
-<p>This is GDPR Compliant</p>
+</div>
+
+<div class="disclaimer">
+    <h4>Disclaimer</h4>
+    <p>This dashboard is GDPR compliant. All data displayed is aggregated and anonymised.
+            No personally identifiable information is stored or processed.</p>
+</div>
 """, unsafe_allow_html=True)
