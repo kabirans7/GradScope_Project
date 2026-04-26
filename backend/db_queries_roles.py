@@ -37,7 +37,7 @@ def get_emerging_declining_roles(finyear: int | None = None):
                     ELSE ROUND(((count_end - count_start) * 100.0 / count_start), 1)
                 END AS pct_change
             FROM counts
-            WHERE count_start >= 5
+            WHERE count_start >= 3
         )
         SELECT * FROM (
             SELECT job_title, count_start, count_end, pct_change FROM pct_change
