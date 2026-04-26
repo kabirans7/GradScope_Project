@@ -202,11 +202,11 @@ def show_careers():
         return None if selected == "All Time" else int(selected)
 
     # ---------------------------------------------------------------
-    # Page 1 — Bar chart: Job roles grouped by industry
+    # Page 1 — Treemap: Job roles grouped by industry
     # ---------------------------------------------------------------
     if st.session_state.careers_page == "treemap":
 
-        col1, col2 = st.columns([1, 1])
+        col1, spacer = st.columns([1, 2])
         with col1:
             selected_year = st.selectbox("Year", year_options, index=0, key="careers_year")
 
@@ -217,50 +217,47 @@ def show_careers():
             st.warning("No career data available.")
             return
 
-        industries = ["All"] + sorted(df["industry_name"].dropna().unique().tolist())
-        with col2:
-            selected_industry = st.selectbox("Industry", industries, index=0, key="careers_industry")
+        st.caption("Click a job role to explore salary, location and experience insights.")
 
-        if selected_industry != "All":
-            df = df[df["industry_name"] == selected_industry]
-
-        df = df.sort_values("demand_count", ascending=True).tail(20)
-
-        fig = px.bar(
+        fig = px.treemap(
             df,
-            x="demand_count",
-            y="job_title",
+            path=["industry_name", "job_title"],
+            values="demand_count",
             color="industry_name",
-            orientation="h",
-            labels={
-                "job_title": "Job Role",
-                "demand_count": "Number of Postings",
-                "industry_name": "Industry",
-            },
+            hover_data={"demand_count": True},
+            labels={"demand_count": "Postings"},
             title="Career Options Related to Industry",
+        )
+
+        fig.update_traces(
+            textinfo="label+value",
+            hovertemplate="<b>%{label}</b><br>Postings: %{value}<extra></extra>",
+            marker=dict(line=dict(width=1, color="#0d1b2e")),
         )
 
         fig.update_layout(
             title_x=0.5,
-            xaxis_title="Number of Postings",
-            yaxis_title="Job Role",
-            height=600,
-            margin=dict(l=20, r=20, t=60, b=40),
-            legend=dict(orientation="v", x=1.02, y=1),
+            height=650,
+            margin=dict(l=10, r=10, t=60, b=10),
         )
 
         event = st.plotly_chart(
             fig,
             on_select="rerun",
-            key="careers_bar",
+            key="careers_treemap",
             use_container_width=True,
             config=plotly_config,
         )
 
         if event and event.selection and event.selection.get("points"):
-            st.session_state.selected_job_title = event.selection["points"][0]["y"]
-            st.session_state.careers_page = "job_detail"
-            st.rerun()
+            point = event.selection["points"][0]
+            label = point.get("label", "")
+            parent = point.get("parent", "")
+            if parent and parent != "":
+                st.session_state.selected_job_title = label
+                st.session_state.selected_industry = parent
+                st.session_state.careers_page = "job_detail"
+                st.rerun()
 
     # ---------------------------------------------------------------
     # Page 2 — Bar chart: Job roles within selected industry
