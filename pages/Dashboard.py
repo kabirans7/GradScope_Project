@@ -40,6 +40,12 @@ st.markdown("""
             padding: 0.75rem 1.5rem !important;
             height: 3.5rem !important;
         }
+        [data-testid="stVerticalBlockBorderWrapper"] button[kind="secondary"] {
+            font-size: 1rem !important;
+            font-weight: 400 !important;
+            padding: 0.25rem 0.75rem !important;
+            height: auto !important;
+        }
     </style>
 """, unsafe_allow_html=True)
 
