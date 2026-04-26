@@ -224,6 +224,16 @@ def show_careers():
             path=["industry_name", "job_title"],
             values="demand_count",
             color="industry_name",
+            color_discrete_sequence=[
+                "#4A6FA5",  # steel blue
+                "#B07BAC",  # mauve
+                "#6AAACD",  # light blue
+                "#C8A84B",  # muted gold
+                "#C47A6A",  # muted coral
+                "#7A9E7E",  # sage green
+                "#6B6B7B",  # slate grey
+                "#A0837A",  # dusty rose
+            ],
             hover_data={"demand_count": True},
             labels={"demand_count": "Postings"},
             title="Career Options Related to Industry",
