@@ -69,7 +69,7 @@ def show():
         import math
         tick_start = math.floor((x_min - x_pad_left) / 10) * 10
         tick_end = math.ceil((x_max + x_pad_right) / 10) * 10
-        tick_vals = list(range(int(tick_start), int(tick_end) + 1, 10))
+        tick_vals = list(range(int(tick_start), int(tick_end) + 1, 20))
 
         fig = go.Figure()
 
