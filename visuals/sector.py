@@ -181,7 +181,7 @@ def show():
                     orientation="h",
                     width=0.4,
                     marker_color="#5B8DB8",
-                    line=dict(color="#8FB3CF", width=1.5),
+                    line=dict(color="#FFFFFF", width=1.5),
                     fillcolor="#4A74A6",
                     boxmean=False,
                     boxpoints=False,
