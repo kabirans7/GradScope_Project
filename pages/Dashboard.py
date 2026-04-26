@@ -46,7 +46,7 @@ col1, spacer, nav1, nav2 = st.columns([0.05, 0.70, 0.1, 0.1])
 with col1:
     st.markdown(f"""
         <img src="data:image/png;base64,{logo_b64}"
-             style="width: 180px; height: 180px; object-fit: contain; border-radius: 8px; display: block; margin-top: -30px; margin-left: -20px;">
+             style="width: 300px; height: 300px; object-fit: contain; border-radius: 8px; display: block; margin-top: -30px; margin-left: -20px;">
     """, unsafe_allow_html=True)
 with nav1:
     if st.button("Home", use_container_width=True):
