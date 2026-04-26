@@ -249,10 +249,10 @@ def show():
         fig.update_traces(
             line=dict(color="#56B4E9", width=2),
             marker=dict(
-                color="#0d1b2e",
+                color="#56B4E9",
                 size=10,
                 symbol="circle",
-                line=dict(color="#56B4E9", width=2),
+                line=dict(color="#FFFFFF", width=2),
             ),
         )
         fig.update_layout(
