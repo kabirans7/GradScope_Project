@@ -42,7 +42,6 @@ def show():
             st.warning("No sector data available.")
             return
 
-        # Limit to top 15 sectors for readability
         df = df.head(15).sort_values("demand_count", ascending=True)
 
         fig = px.bar(
@@ -147,15 +146,15 @@ def show():
                     x="frequency",
                     y="skill_name",
                     orientation="h",
-                    labels={"skill_name": "Skill", "frequency": "Frequency"},
+                    labels={"skill_name": "Skill", "frequency": "Number of Postings"},
                     title=f"Skills Required Within {sector}",
                     color="frequency",
-                    color_continuous_scale="Oranges",
+                    color_continuous_scale=["#B8D4E8", "#6AAACD", "#1B3A6B"],
                     range_color=[0, skills_df["frequency"].max()],
                 )
                 fig_skills.update_layout(
                     title_x=0.5,
-                    xaxis_title="Frequency",
+                    xaxis_title="Number of Postings",
                     yaxis_title="Skill",
                     coloraxis_showscale=False,
                     showlegend=False,
@@ -181,14 +180,15 @@ def show():
                     name=sector,
                     orientation="h",
                     width=0.4,
-                    marker_color="#4C9BE8",
-                    boxmean=True,
+                    marker_color="#5B8DB8",
+                    line=dict(color="#8FB3CF", width=1.5),
+                    fillcolor="#4A74A6",
+                    boxmean=False,
                     boxpoints=False,
                     hovertemplate=(
                         "Min: £%{lowerfence:,.0f}<br>"
                         "Q1: £%{q1:,.0f}<br>"
                         "Median: £%{median:,.0f}<br>"
-                        "Mean: £%{mean:,.0f}<br>"
                         "Q3: £%{q3:,.0f}<br>"
                         "Max: £%{upperfence:,.0f}"
                         "<extra></extra>"
