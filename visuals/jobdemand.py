@@ -37,7 +37,17 @@ def show():
             title=title,
         )
         if color:
-            fig.update_traces(line=dict(color=color), name="Actual", showlegend=True)
+            fig.update_traces(
+                line=dict(color=color),
+                marker=dict(
+                    color=color,
+                    size=14,
+                    symbol="circle",
+                    line=dict(color="#FFFFFF", width=2),
+                ),
+                name="Actual",
+                showlegend=True,
+            )
 
         fig.update_layout(
             title_x=0.5,
@@ -51,7 +61,6 @@ def show():
             margin=dict(l=20, r=20, t=80, b=60),
         )
 
-        # Forecast — calls apply_forecast from visuals/forecast.py
         if show_forecast:
             fig = apply_forecast(fig, df, x_col=x_col, y_col=y_col, color=color)
 
@@ -74,7 +83,6 @@ def show():
         roles = ["All"] + get_all_job_titles()
         selected_role = st.selectbox("Role", roles, index=0, key="trends_role")
 
-    # Only show forecast toggle when All Time is selected
     if selected_year == "All Time":
         show_forecast = st.toggle("Show Forecast", value=False, key="trends_forecast")
     else:
@@ -151,7 +159,6 @@ def show_monthly():
     def parse_year(selected: str) -> int | None:
         return None if selected == "All Time" else int(selected)
 
-    # Filters
     col1, col2, col3, col4 = st.columns(4)
 
     with col1:
@@ -192,6 +199,16 @@ def show_monthly():
             "demand_count": "Number of postings",
         },
         title="Total Number of Monthly Job Postings Over Time",
+    )
+
+    fig.update_traces(
+        line=dict(color="#56B4E9", width=2),
+        marker=dict(
+            color="#56B4E9",
+            size=14,
+            symbol="circle",
+            line=dict(color="#FFFFFF", width=2),
+        ),
     )
 
     fig.update_layout(
