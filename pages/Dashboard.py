@@ -50,7 +50,7 @@ logo_b64 = __import__('base64').b64encode(open('images/GradScope_Image.png', 'rb
 
 st.markdown(f"""
     <img src="data:image/png;base64,{logo_b64}"
-         style="position: fixed; top: -25px; left: 5px; width: 180px; height: 180px; object-fit: contain; border-radius: 8px; z-index: 999; pointer-events: none;">
+         style="position: fixed; top: -25px; left: 5px; width: 180px; height: 180px; object-fit: contain; border-radius: 8px; z-index: 0; pointer-events: none;">
 """, unsafe_allow_html=True)
 
 _, spacer, nav1, nav2 = st.columns([0.05, 0.70, 0.1, 0.1])
