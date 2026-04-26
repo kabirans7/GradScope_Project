@@ -62,7 +62,7 @@ def show(job_title: str, finyear: int | None = None):
     tick_vals  = list(range(int(tick_start), int(tick_end) + tick_step, tick_step))
 
     fig.update_layout(
-        title=dict(text=f"Salary Distribution for {job_title}", x=0.5),
+        title=dict(text=f"Salary Distribution for {job_title}", x=0.5, xanchor="center"),
         xaxis_title="Salary (£)",
         yaxis_title="Job Role",
         height=350,
