@@ -41,9 +41,9 @@ def show():
                 line=dict(color=color),
                 marker=dict(
                     color=color,
-                    size=14,
+                    size=12,
                     symbol="circle",
-                    line=dict(color="#FFFFFF", width=2),
+                    line=dict(width=0),
                 ),
                 name="Actual",
                 showlegend=True,
