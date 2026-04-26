@@ -92,7 +92,7 @@ def show():
     elif st.session_state.sectors_page == "detail":
         sector = st.session_state.selected_sector
 
-        nav_col, col1, col2, spacer = st.columns([0.5, 1, 1, 1])
+        nav_col, col1, spacer = st.columns([0.8, 1, 2])
         with nav_col:
             st.markdown("<br>", unsafe_allow_html=True)
             if st.button("← Back", key="sectors_back"):
@@ -101,12 +101,13 @@ def show():
                 st.rerun()
         with col1:
             selected_year = st.selectbox("Year", year_options, index=0, key="sector_detail_year")
-        with col2:
-            selected_view = st.selectbox("View", ["Roles", "Skills", "Salary"], key="sector_detail_view")
 
         finyear = parse_year(selected_year)
 
-        if selected_view == "Roles":
+        st.markdown("<br>", unsafe_allow_html=True)
+        tab1, tab2, tab3 = st.tabs(["Roles", "Skills", "Salary"])
+
+        with tab1:
             roles_df = get_roles_within_sector(sector, finyear=finyear)
             if not roles_df.empty:
                 roles_df = roles_df.sort_values("demand_count", ascending=True)
@@ -116,13 +117,12 @@ def show():
                     y="job_title",
                     orientation="h",
                     labels={"job_title": "Job Role", "demand_count": "Number of Job Postings"},
-                    title=f"Roles Within {sector}",
                     color="demand_count",
                     color_continuous_scale="Blues",
                     range_color=[0, roles_df["demand_count"].max()],
                 )
                 fig_roles.update_layout(
-                    title_x=0.5,
+                    title=dict(text=f"Roles Within {sector}", x=0.5, xanchor="center"),
                     xaxis_title="Number of Job Postings",
                     yaxis_title="Job Role",
                     coloraxis_showscale=False,
@@ -134,7 +134,7 @@ def show():
             else:
                 st.info(f"No role data available for {sector}.")
 
-        elif selected_view == "Skills":
+        with tab2:
             skills_df = get_skills_within_sector(sector, finyear=finyear)
             if not skills_df.empty:
                 skills_df = skills_df.sort_values("frequency", ascending=True)
@@ -144,13 +144,12 @@ def show():
                     y="skill_name",
                     orientation="h",
                     labels={"skill_name": "Skill", "frequency": "Number of Postings"},
-                    title=f"Skills Required Within {sector}",
                     color="frequency",
                     color_continuous_scale=["#B8D4E8", "#6AAACD", "#1B3A6B"],
                     range_color=[0, skills_df["frequency"].max()],
                 )
                 fig_skills.update_layout(
-                    title_x=0.5,
+                    title=dict(text=f"Skills Required Within {sector}", x=0.5, xanchor="center"),
                     xaxis_title="Number of Postings",
                     yaxis_title="Skill",
                     coloraxis_showscale=False,
@@ -162,7 +161,7 @@ def show():
             else:
                 st.info(f"No skill data available for {sector}.")
 
-        elif selected_view == "Salary":
+        with tab3:
             salary_df = get_salary_within_sector(sector, finyear=finyear)
             if not salary_df.empty:
                 fig_salary = go.Figure()
@@ -195,7 +194,7 @@ def show():
                 x_max = salary_df["salary_max"].max()
                 x_pad = (x_max - x_min) * 0.30
                 fig_salary.update_layout(
-                    title=dict(text=f"Salary Distribution for {sector}", x=0.5),
+                    title=dict(text=f"Salary Distribution for {sector}", x=0.5, xanchor="center"),
                     xaxis_title="Salary (£)",
                     yaxis_title="Industry Sector",
                     height=400,
