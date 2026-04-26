@@ -8,10 +8,10 @@ from backend.db_queries_skill import (
 
 # Colorblind-friendly palette
 CB_COLORS = [
-    "#4C8BF5",  # blue (keeping your original 1st)
-    "#E69F00",  # orange
-    "#CC79A7",  # pink/mauve
-    "#999999",  # grey
+    "#4C8BF5",  # blue
+    "#F5A623",  # amber
+    "#E8789A",  # pink
+    "#6B6B6B",  # dark grey
     "#56B4E9",  # sky blue
     "#009E73",  # bluish green
     "#D55E00",  # vermillion
