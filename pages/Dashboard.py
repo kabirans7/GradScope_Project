@@ -34,6 +34,12 @@ st.markdown("""
             font-size: 1.15rem !important;
             font-weight: 600 !important;
         }
+        div[data-testid="stHorizontalBlock"] button[kind="secondary"] {
+            font-size: 1.1rem !important;
+            font-weight: 600 !important;
+            padding: 0.75rem 1.5rem !important;
+            height: 3rem !important;
+        }
     </style>
 """, unsafe_allow_html=True)
 
