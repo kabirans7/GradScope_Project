@@ -95,7 +95,7 @@ def show():
         nav_col, col1, col2, spacer = st.columns([0.5, 1, 1, 1])
         with nav_col:
             st.markdown("<br>", unsafe_allow_html=True)
-            if st.button("< Back", key="sectors_back"):
+            if st.button("← Back", key="sectors_back"):
                 st.session_state.sectors_page = "overview"
                 st.session_state.selected_sector = None
                 st.rerun()
