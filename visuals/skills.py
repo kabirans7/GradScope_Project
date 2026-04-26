@@ -76,6 +76,7 @@ def show():
                 color=colors,
                 line=dict(width=0),
             ),
+            hovertemplate="<b>%{x}</b><br>Postings: %{y}<br>🔍 Click to view insights<extra></extra>",
         )
 
         fig.update_layout(
@@ -182,6 +183,7 @@ def show():
                 color=colors,
                 line=dict(width=0),
             ),
+            hovertemplate="<b>%{x}</b><br>Postings: %{y}<br>🔍 Click to view insights<extra></extra>",
         )
 
         fig.update_layout(
