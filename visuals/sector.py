@@ -180,9 +180,9 @@ def show():
                     name=sector,
                     orientation="h",
                     width=0.4,
-                    marker_color="#5B8DB8",
-                    line=dict(color="#FFFFFF", width=1.5),
-                    fillcolor="#4A74A6",
+                    marker_color="#5B8FAF",
+                    line=dict(color="#E6EEF5", width=2),
+                    fillcolor="#5B8FAF",
                     boxmean=False,
                     boxpoints=False,
                     hovertemplate=(
