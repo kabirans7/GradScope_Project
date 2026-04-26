@@ -225,19 +225,19 @@ def show_careers():
             values="demand_count",
             color="industry_name",
             color_discrete_sequence=[
-                "#4A74A6",  # medium blue
-                "#3E5F8A",  # darker blue
-                "#6F9BC5",  # light blue
-                "#8FB3CF",  # pale blue
-                "#B07A97",  # mauve/pink
-                "#C996B0",  # light pink
-                "#8E5C78",  # dark purple
-                "#D4A13A",  # gold
-                "#E2BC63",  # light gold
-                "#A97C2B",  # mustard
-                "#E6E07A",  # pale yellow
-                "#C6C15A",  # yellow-green
-                "#4F4F4F",  # dark grey
+                "#4A74A6",  # medium blue (sampled 1)
+                "#B07A97",  # mauve/pink (sampled 2)
+                "#D4A13A",  # gold (sampled 3)
+                "#4F4F4F",  # dark grey (sampled 4)
+                "#009E73",  # bluish green (Wong)
+                "#0072B2",  # deep blue (Wong)
+                "#D55E00",  # vermillion (Wong)
+                "#56B4E9",  # sky blue (Wong)
+                "#CC79A7",  # pink (Wong)
+                "#E69F00",  # orange (Wong)
+                "#3E5F8A",  # darker blue (sampled)
+                "#8E5C78",  # dark purple (sampled)
+                "#A97C2B",  # mustard (sampled)
             ],
             hover_data={"demand_count": True},
             labels={"demand_count": "Postings"},
@@ -247,7 +247,10 @@ def show_careers():
         fig.update_traces(
             textinfo="label+value",
             hovertemplate="<b>%{label}</b><br>Postings: %{value}<br>🔍 Click to view insights<extra></extra>",
-            marker=dict(line=dict(width=1, color="#0d1b2e")),
+            marker=dict(
+                line=dict(width=1, color="#0d1b2e"),
+            ),
+            textfont=dict(color="white"),
         )
 
         fig.update_layout(
