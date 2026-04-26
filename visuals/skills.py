@@ -118,7 +118,7 @@ def show():
 
         with nav_col:
             st.markdown("<br>", unsafe_allow_html=True)
-            if st.button("< Back"):
+            if st.button("← Back"):
                 st.session_state.skill_page = "category"
                 st.session_state.selected_category = None
                 st.session_state.selected_group = None
@@ -223,7 +223,7 @@ def show():
 
         with nav_col:
             st.markdown("<br>", unsafe_allow_html=True)
-            if st.button("< Back"):
+            if st.button("← Back"):
                 st.session_state.skill_page = "skills"
                 st.rerun()
 
