@@ -168,9 +168,6 @@ def show_monthly():
 
     df = get_monthly_postings(finyear=finyear)
 
-    if not df.empty and finyear:
-        df["month_label"] = pd.to_datetime(df["month_label"], format="%b %Y").dt.strftime("%b")
-
     if df.empty:
         st.warning("No data available for the selected filters.")
         return
