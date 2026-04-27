@@ -1,4 +1,4 @@
-#Insert values into DBeaver
+#Insert values into Database
 # This deals with ETL 
 
 from etl.extract import extract_data
