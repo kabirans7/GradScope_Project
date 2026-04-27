@@ -1,5 +1,4 @@
 import streamlit as st
-# from auth import init_auth_state, render_auth_router, logout_button_top_right
 
 st.set_page_config(page_title="GradScope", page_icon=":bar_chart:", layout="wide", initial_sidebar_state="expanded")
 
@@ -10,7 +9,6 @@ def local_css(file_name: str):
     except FileNotFoundError:
         st.warning(f"CSS file not found: {file_name}")
 
-# init_auth_state()
 
 # URL Routing for reset password
 params = st.query_params
@@ -22,16 +20,6 @@ if params.get("page") == "reset":
 st.markdown("<style>img{border-radius:15px;}</style>", unsafe_allow_html=True)
 local_css("style/style.css")
 
-
-# # Authentication gate
-# if not st.session_state.authenticated:
-#     render_auth_router()
-#     st.stop()
-
-# ---------------------------------------------------------------
-# Layout + hide sidebar
-# ---------------------------------------------------------------
-# logout_button_top_right()
 
 st.markdown("""
     <style>
@@ -55,8 +43,7 @@ with col1:
         <img src="data:image/png;base64,{logo_b64}" 
              style="width: 120px; height: 120px; object-fit: contain; border-radius: 10px; margin-top: -30px; margin-left: -20px;">
     """, unsafe_allow_html=True)
-# with col2:
-#     st.markdown("<h4 style='margin: 0; padding-top: 10px; font-weight: 600;'>GradScope</h4>", unsafe_allow_html=True)
+
 with nav1:
     st.markdown("<br>", unsafe_allow_html=True)
     if st.button("Home", use_container_width=True):
@@ -66,35 +53,8 @@ with nav2:
     if st.button("Dashboard", use_container_width=True):
         st.switch_page("pages/Dashboard.py")
 
-# # ---------------------------------------------------------------
-# # Welcome content
-# # ---------------------------------------------------------------
-# col1, col2 = st.columns([1.2, 2])
 
-# with col1:
-#     st.markdown("")
-
-# with col2:
-#     st.title("WELCOME TO GRADSCOPE!")
-#     st.subheader("A Real-Time Data Dashboard Analysing The Graduate Employment Market")
-#     st.markdown("""
-# Gradscope transforms fragmented labour-market data into clear insights to
-# help students and universities understand emerging skills, roles and employer demand.
-# """)
-#     st.divider()
-
-#     st.header("Who is this for?")
-#     colA, colB, colC = st.columns(3)
-#     with colA:
-#         st.info("**Students**")
-#     with colB:
-#         st.info("**Careers**")
-#     with colC:
-#         st.info("**Academics**")
-
-# ---------------------------------------------------------------
-# Welcome content
-# ---------------------------------------------------------------
+#Styling
 st.markdown(f"""
     <style>
         .hero {{
