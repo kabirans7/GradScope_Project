@@ -8,4 +8,10 @@ secondaryBackgroundColor = '#0083B8'
 
 textColor = '#FFFFFF'
 
-font = "sans serif" 
+font = "sans serif"
+
+[ui]
+hideSidebarNav = true
+
+[client]
+showSidebarNavigation = false
