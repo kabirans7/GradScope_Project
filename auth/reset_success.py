@@ -1,20 +1,22 @@
-import streamlit as st
-from .auth_state import card_start, card_end
+# Admin Codes - Will be integrated in future iteration 
 
-def render_reset_success():
-    card_start("Password Updated")
+# import streamlit as st
+# from .auth_state import card_start, card_end
 
-    st.markdown(
-        """
-        <div style="text-align:center;margin:20px 0;">
-            <p>Your password has been updated successfully!</p>
-        </div>
-        """,
-        unsafe_allow_html=True,
-    )
+# def render_reset_success():
+#     card_start("Password Updated")
 
-    if st.button("Return to Login", key="btn_return_login", use_container_width=True):
-        st.session_state.auth_view = "login"
-        st.rerun()
+#     st.markdown(
+#         """
+#         <div style="text-align:center;margin:20px 0;">
+#             <p>Your password has been updated successfully!</p>
+#         </div>
+#         """,
+#         unsafe_allow_html=True,
+#     )
 
-    card_end()
+#     if st.button("Return to Login", key="btn_return_login", use_container_width=True):
+#         st.session_state.auth_view = "login"
+#         st.rerun()
+
+#     card_end()
