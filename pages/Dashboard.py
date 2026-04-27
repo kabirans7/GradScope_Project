@@ -1,12 +1,9 @@
 import streamlit as st
-# from auth import require_auth
 from visuals.skills import show as show_skills
 from visuals.roles import show as show_roles, show_careers
 from visuals.employer import show as show_employers
 from visuals.jobdemand import show as show_demand, show_monthly
 from visuals.sector import show as show_sectors
-
-# require_auth()  # Blocks direct access if not logged in
 
 st.set_page_config(layout="wide")
 
