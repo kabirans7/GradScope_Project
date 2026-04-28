@@ -1,7 +1,7 @@
+import math
 import streamlit as st
 import plotly.graph_objects as go
 import plotly.express as px
-import altair as alt
 from backend.db_queries_roles import (
     get_emerging_declining_roles,
     get_role_trend,
@@ -56,7 +56,6 @@ def show():
         x_pad_left = abs(x_min) * 0.45
         x_pad_right = abs(x_max) * 0.30
 
-        import math
         tick_start = math.floor((x_min - x_pad_left) / 10) * 10
         tick_end = math.ceil((x_max + x_pad_right) / 10) * 10
         tick_vals = list(range(int(tick_start), int(tick_end) + 1, 20))
@@ -208,7 +207,6 @@ def show_careers():
             st.warning("No career data available.")
             return
 
-
         fig = px.treemap(
             df,
             path=["industry_name", "job_title"],
@@ -268,7 +266,7 @@ def show_careers():
                 st.rerun()
 
     # ---------------------------------------------------------------
-    # Page 2 — Bar chart: Job roles within selected industry
+    # Page 2 — Bar chart: Job roles within selected industry (unused)
     # ---------------------------------------------------------------
     elif st.session_state.careers_page == "industry_roles":
         industry = st.session_state.selected_industry
@@ -306,7 +304,7 @@ def show_careers():
             xaxis_tickangle=-30,
             xaxis_title="Job Role",
             yaxis_title="Number of<br>postings",
-            yaxis=dict(rangemode="tozero"),
+            yaxis=dict(rangemode="tozero", dtick=1, tickformat="d"),
             title_x=0.5,
             height=600,
         )
