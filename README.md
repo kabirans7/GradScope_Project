@@ -1,15 +1,12 @@
-# 🎓 GradScope – Graduate Labour Market Intelligence Dashboard
+# GradScope – Graduate Labour Market Intelligence Dashboard
 
-GradScope is my final year project, developed as part of my Business Computing degree at the University of Westminster.
+GradScope is my final year project, developed as part of my Business Information Systems degree at the University of Westminster.
 
 It is a data-driven dashboard designed to analyse the graduate employment market and provide actionable insights for students, academics, and career consultants. The platform transforms complex job market data into interactive, easy-to-understand visualisations to support better career decision-making.
 
----
+GradScope was built with Python (Streamlit) and PostgreSQL (DBeaver and Neon)
 
-## 🚀 Live Application
-
-🔗 Streamlit App: *(Add your deployed link here)*  
-🔗 GitHub Repository: https://github.com/kabirans7/Final-Year-Project  
+The live prototype is hosted here: https://gradscope.streamlit.app/  
 
 ---
 
