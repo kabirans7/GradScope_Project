@@ -46,7 +46,6 @@ Note: The dataset is synthetic and not real-time.
 - The dashboard connects to a cloud database (Neon), not a local database  
 - Database credentials are hidden for security reasons  
 - The deployed version fully demonstrates all features of the system
-- 
 ---
 
 ## Future Improvements
