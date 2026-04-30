@@ -60,7 +60,7 @@ Note: The dataset is synthetic and not real-time.
 ## Author
 
 Kabir Ansari  
-Business Computing BSc (Hons)  
+Business Information Systems BSc (Hons)  
 University of Westminster  
 
 Email: kabir.ansari@outlook.com
