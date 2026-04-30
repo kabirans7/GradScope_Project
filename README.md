@@ -6,39 +6,29 @@ It is a data-driven dashboard designed to analyse the graduate employment market
 
 GradScope was built with Python (Streamlit) and PostgreSQL (DBeaver and Neon)
 
-The live prototype is hosted here: https://gradscope.streamlit.app/  
+---
+
+## Key Features of the dashboard
+
+- Job Demand Trends: Analyse how job postings evolve over time (monthly/yearly trends + forecasting)
+
+- Skills Intelligence: Identify in-demand, growing, and declining skills with drill-down capability
+
+- Job Roles Analysis: Discover which roles are growing or declining in the graduate market
+
+- Sector & Industry Insights: Compare hiring demand across industries
+
+- Salary Insights: Explore salary distributions using box plots (median, quartiles, outliers)
+
+- Geographic Distribution: View regional demand across locations
+
+- Interactive Filters & Drill-Downs: Dynamically explore data by year, role, skill category, and more
+
+- Forecasting: Predict future job demand trends (with limitations acknowledged)
 
 ---
 
-## 📊 Key Features
-
-- 📈 Job Demand Trends  
-  Analyse how job postings evolve over time (monthly/yearly trends + forecasting)
-
-- 🧠 Skills Intelligence  
-  Identify in-demand, growing, and declining skills with drill-down capability
-
-- 💼 Job Roles Analysis  
-  Discover which roles are growing or declining in the graduate market
-
-- 🏢 Sector & Industry Insights  
-  Compare hiring demand across industries
-
-- 💰 Salary Insights  
-  Explore salary distributions using box plots (median, quartiles, outliers)
-
-- 🌍 Geographic Distribution  
-  View regional demand across locations
-
-- 🔍 Interactive Filters & Drill-Downs  
-  Dynamically explore data by year, role, skill category, and more
-
-- 📉 Forecasting  
-  Predict future job demand trends (with limitations acknowledged)
-
----
-
-## 🧱 Tech Stack
+## Technology Stack
 
 **Frontend / App Layer**
 - Python (Streamlit)
@@ -61,6 +51,3 @@ The live prototype is hosted here: https://gradscope.streamlit.app/
 
 ---
 
-## ⚙️ Getting Started (Local Setup)
-
-### 1. Clone the repository
